@@ -1,4 +1,4 @@
-const CACHE_NAME = 'incidents-mobile-v1';
+const CACHE_NAME = 'incidents-mobile-v2.1';
 const ASSETS = [
     './',
     './index.html',
