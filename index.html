@@ -309,7 +309,7 @@ async function send(){
     // 1) Essai Web Share API (pièce jointe native sur mobile)
     if(navigator.canShare&&navigator.canShare({files:[file]})){
         try{
-            await navigator.share({title:subj,text:`Incident scolaire: ${d.nature} - ${d.auteurs}`,files:[file]});
+            await navigator.share({title:subj,files:[file]});
             updLast('sent');showSuccess();toast('Incident partagé avec pièce jointe !');return;
         }catch(e){if(e.name==='AbortError'){toast('Partage annulé',1);return}}
     }
@@ -333,7 +333,7 @@ async function reSend(i){const h=JSON.parse(localStorage.getItem('ih')||'[]');co
     const content='#INCIDENT_MOBILE_DATA_V2\n'+JSON.stringify(it.jd,null,2)+'\n#END_INCIDENT_DATA';
     const file=new File([content],fn,{type:'text/plain'});
     if(navigator.canShare&&navigator.canShare({files:[file]})){
-        try{await navigator.share({title:`[INCIDENT MOBILE] ${it.nature}`,text:`Renvoi incident: ${it.auteurs}`,files:[file]});h[i].status='sent';localStorage.setItem('ih',JSON.stringify(h));rHist();toast('Partagé !');return}catch(e){}
+        try{await navigator.share({title:`[INCIDENT MOBILE] ${it.nature}`,files:[file]});h[i].status='sent';localStorage.setItem('ih',JSON.stringify(h));rHist();toast('Partagé !');return}catch(e){}
     }
     const lnk=document.createElement('a');lnk.href=URL.createObjectURL(new Blob([content],{type:'text/plain'}));lnk.download=fn;lnk.click();
     h[i].status='sent';localStorage.setItem('ih',JSON.stringify(h));rHist();toast('Fichier téléchargé !')}
