@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1a1a2e">
+    <title>Incidents Scolaires</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+:root{--bg:#0f0f1a;--card:#1a1a2e;--input:#16213e;--inputF:#1c2b4a;--acc:#e94560;--accG:rgba(233,69,96,.3);--accS:#ff6b6b;--t1:#eaeaea;--t2:#8892b0;--t3:#5a6380;--brd:#2a2a4a;--ok:#00d2a0;--okG:rgba(0,210,160,.25);--warn:#f4a261;--r:14px;--rs:10px;--tr:.25s cubic-bezier(.4,0,.2,1)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--t1);min-height:100dvh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 20% 20%,rgba(233,69,96,.06),transparent 50%),radial-gradient(ellipse at 80% 80%,rgba(0,210,160,.04),transparent 50%);pointer-events:none}
+.hdr{position:sticky;top:0;z-index:100;background:rgba(15,15,26,.85);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(233,69,96,.15);padding:14px 20px;padding-top:max(14px,env(safe-area-inset-top))}
+.hdr-in{display:flex;align-items:center;justify-content:space-between;max-width:600px;margin:0 auto}
+.hdr-b{display:flex;align-items:center;gap:12px}
+.hdr-ico{width:38px;height:38px;background:linear-gradient(135deg,var(--acc),#ff6b8a);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 16px var(--accG)}
+.hdr-t{font-family:'Playfair Display',serif;font-size:1.1rem;background:linear-gradient(135deg,#fff,#c0c0d0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hdr-s{font-size:.68rem;color:var(--t3);letter-spacing:.08em;text-transform:uppercase}
+.hdr-act{display:flex;gap:8px}
+.btn-h{background:var(--input);border:1px solid var(--brd);border-radius:10px;color:var(--t2);padding:7px 11px;font-size:.78rem;cursor:pointer;transition:var(--tr);display:flex;align-items:center;gap:5px}
+.btn-h:hover{border-color:var(--acc)}
+.bdg{background:var(--acc);color:#fff;border-radius:50%;min-width:17px;height:17px;font-size:.6rem;font-weight:700;display:none;align-items:center;justify-content:center;padding:0 4px}
+.bdg.vis{display:flex}
+.main{position:relative;z-index:1;max-width:600px;margin:0 auto;padding:20px 16px 120px}
+.steps{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:24px}
+.dot{width:28px;height:4px;border-radius:2px;background:var(--brd);transition:var(--tr)}
+.dot.act{background:var(--acc);width:36px;box-shadow:0 0 10px var(--accG)}
+.dot.done{background:var(--ok)}
+.sec{display:none;animation:fadeIn .35s ease}
+.sec.act{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.sh{margin-bottom:20px}
+.sn{font-size:.7rem;font-weight:600;color:var(--acc);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.st{font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;line-height:1.2}
+.sd{color:var(--t2);font-size:.85rem;margin-top:6px}
+.card{background:var(--card);border:1px solid var(--brd);border-radius:var(--r);padding:20px;box-shadow:0 4px 24px rgba(0,0,0,.3);margin-bottom:16px}
+.fg{margin-bottom:18px}.fg:last-child{margin-bottom:0}
+.fl{display:flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.fl .ic{font-size:.9rem}.fl .req{color:var(--acc);font-size:.65rem}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+input[type=text],input[type=date],input[type=time],input[type=email],textarea,select{width:100%;background:var(--input);border:1.5px solid var(--brd);border-radius:var(--rs);color:var(--t1);font-family:'DM Sans',sans-serif;font-size:.95rem;padding:12px 14px;transition:var(--tr);outline:none;-webkit-appearance:none;appearance:none}
+input:focus,textarea:focus,select:focus{border-color:var(--acc);background:var(--inputF);box-shadow:0 0 0 3px var(--accG)}
+textarea{resize:vertical;min-height:100px;line-height:1.6}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='%238892b0'%3E%3Cpath d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.acw{position:relative}
+.acl{position:absolute;top:100%;left:0;right:0;background:var(--card);border:1.5px solid var(--brd);border-radius:0 0 var(--rs) var(--rs);max-height:220px;overflow-y:auto;z-index:50;display:none;box-shadow:0 8px 32px rgba(0,0,0,.4)}
+.acl.open{display:block}
+.aci{padding:11px 14px;cursor:pointer;transition:background .15s;border-bottom:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between;align-items:center}
+.aci:hover,.aci.hl{background:rgba(233,69,96,.1)}
+.aci:last-child{border-bottom:none}
+.acn{font-size:.9rem;font-weight:500}
+.acn em{font-style:normal;color:var(--acc);font-weight:700}
+.acc{font-size:.72rem;color:var(--t3);background:rgba(255,255,255,.05);padding:2px 8px;border-radius:6px;white-space:nowrap}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:8px;font-size:.82rem;font-weight:500;animation:fadeIn .2s ease}
+.tag-a{background:rgba(233,69,96,.15);color:var(--accS);border:1px solid rgba(233,69,96,.3)}
+.tag-v{background:rgba(66,135,245,.15);color:#7aafff;border:1px solid rgba(66,135,245,.3)}
+.tag .tx{cursor:pointer;opacity:.6;font-size:.9rem}.tag .tx:hover{opacity:1}
+.acb{display:none;align-items:center;gap:8px;padding:10px 14px;border-radius:var(--rs);background:rgba(0,210,160,.08);border:1px solid rgba(0,210,160,.2);font-size:.85rem;color:var(--ok);margin-top:8px}
+.acb.vis{display:flex}
+.acb .ct{flex:1}.acb .ce{font-size:.72rem;color:var(--t3);cursor:pointer;text-decoration:underline}
+.cg{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:5px;padding:8px 14px;border-radius:20px;background:var(--input);border:1.5px solid var(--brd);color:var(--t2);font-size:.82rem;font-weight:500;cursor:pointer;transition:var(--tr);user-select:none}
+.chip:active{transform:scale(.95)}
+.chip.sel{border-color:var(--acc);background:rgba(233,69,96,.12);color:var(--accS)}
+.chip.cust{border-color:var(--warn);background:rgba(244,162,97,.12);color:var(--warn)}
+.chip .cr{font-size:.8rem;cursor:pointer;opacity:.7}.chip .cr:hover{opacity:1}
+.car{display:flex;gap:8px;margin-top:10px}
+.car input{flex:1;padding:8px 12px;font-size:.85rem}
+.car .bac{background:var(--input);border:1.5px solid var(--warn);border-radius:var(--rs);color:var(--warn);padding:0 14px;font-size:.85rem;font-weight:600;cursor:pointer;transition:var(--tr);white-space:nowrap}
+.car .bac:hover{background:rgba(244,162,97,.1)}
+.gs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.go{padding:14px 10px;text-align:center;border-radius:var(--rs);border:1.5px solid var(--brd);background:var(--input);cursor:pointer;transition:var(--tr)}
+.go:active{transform:scale(.96)}
+.go.sel{border-width:2px}
+.go[data-v=Faible].sel{border-color:var(--ok);background:rgba(0,210,160,.1)}
+.go[data-v=Moyenne].sel{border-color:var(--warn);background:rgba(244,162,97,.1)}
+.go[data-v=Grave].sel{border-color:var(--acc);background:rgba(233,69,96,.1)}
+.ge{font-size:1.4rem;display:block;margin-bottom:4px}
+.gl{font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.pz{border:2px dashed var(--brd);border-radius:var(--r);padding:28px 20px;text-align:center;cursor:pointer;transition:var(--tr);position:relative;overflow:hidden}
+.pz:hover{border-color:var(--acc);background:rgba(233,69,96,.04)}
+.pz.hp{border-style:solid;border-color:var(--ok);padding:0}
+.pz .ci{font-size:2rem;margin-bottom:8px}
+.pz .pt{color:var(--t2);font-size:.85rem}
+.pp{width:100%;max-height:200px;object-fit:cover;border-radius:calc(var(--r) - 2px);display:none}
+.pz.hp .pp{display:block}.pz.hp .ph{display:none}
+.pr{position:absolute;top:8px;right:8px;background:rgba(0,0,0,.7);color:#fff;border:none;border-radius:50%;width:30px;height:30px;font-size:1rem;cursor:pointer;display:none;align-items:center;justify-content:center}
+.pz.hp .pr{display:flex}
+#photoInput{display:none}
+.nb{display:flex;gap:12px;margin-top:24px}
+.btn{flex:1;padding:14px 20px;border:none;border-radius:var(--rs);font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:600;cursor:pointer;transition:var(--tr);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn:active{transform:scale(.97)}
+.btn-s{background:var(--input);border:1px solid var(--brd);color:var(--t2)}
+.btn-p{background:linear-gradient(135deg,var(--acc),#ff6b8a);color:#fff;box-shadow:0 4px 16px var(--accG)}
+.btn-ok{background:linear-gradient(135deg,var(--ok),#00e6b0);color:#0f0f1a;box-shadow:0 4px 16px var(--okG)}
+.sl{list-style:none}
+.si{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);gap:16px}
+.si:last-child{border-bottom:none}
+.sk{font-size:.78rem;color:var(--t3);text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;min-width:90px}
+.sv{font-size:.9rem;text-align:right;word-break:break-word}
+.sv.em{color:var(--t3);font-style:italic}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--card);border:1px solid var(--ok);border-radius:var(--rs);padding:14px 24px;box-shadow:0 8px 32px rgba(0,0,0,.4);color:var(--t1);font-size:.9rem;z-index:1000;opacity:0;transition:all .4s cubic-bezier(.22,1,.36,1);pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.err{border-color:var(--acc)}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.mo.show{display:flex}
+.ms{width:100%;max-width:600px;max-height:80vh;background:var(--card);border-radius:var(--r) var(--r) 0 0;overflow-y:auto;animation:su .3s ease;padding-bottom:env(safe-area-inset-bottom,20px)}
+@keyframes su{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.mh-bar{width:36px;height:4px;background:var(--t3);border-radius:2px;margin:12px auto}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:0 20px 16px;border-bottom:1px solid var(--brd)}
+.mt{font-family:'Playfair Display',serif;font-size:1.2rem}
+.mc{background:var(--input);border:1px solid var(--brd);border-radius:50%;width:32px;height:32px;color:var(--t2);font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.mb{padding:16px 20px}
+.hi{padding:14px;border:1px solid var(--brd);border-radius:var(--rs);margin-bottom:10px}
+.hih{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.hid{font-size:.8rem;color:var(--t3)}.hin{font-size:.85rem;font-weight:600}.hie{font-size:.82rem;color:var(--t2)}
+.his{font-size:.7rem;padding:2px 8px;border-radius:6px;font-weight:600}
+.hs-s{background:rgba(0,210,160,.15);color:var(--ok)}.hs-d{background:rgba(244,162,97,.15);color:var(--warn)}
+.ha{display:flex;gap:8px;margin-top:8px}.ha .btn{flex:1;padding:8px;font-size:.8rem}
+.eh{text-align:center;padding:40px 20px;color:var(--t3)}.eh .ic{font-size:2rem;margin-bottom:8px}
+.ss{display:none;text-align:center;padding:60px 20px;animation:fadeIn .4s ease}
+.ss.act{display:block}
+.ss-i{font-size:4rem;margin-bottom:20px;animation:bi .6s cubic-bezier(.34,1.56,.64,1)}
+@keyframes bi{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.ss-t{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:10px}
+.ss-d{color:var(--t2);margin-bottom:30px;line-height:1.6}
+@media(max-width:374px){.fr{grid-template-columns:1fr}}
+    </style>
+</head>
+<body>
+<header class="hdr"><div class="hdr-in">
+    <div class="hdr-b"><div class="hdr-ico">📋</div><div><div class="hdr-t">Incidents Scolaires</div><div class="hdr-s">Saisie mobile</div></div></div>
+    <div class="hdr-act"><button class="btn-h" onclick="toggleConfig()">⚙️</button><button class="btn-h" onclick="toggleHistory()">📁 <span id="hCount" class="bdg">0</span></button></div>
+</div></header>
+
+<main class="main">
+<div class="steps" id="stepInd"><div class="dot act"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+
+<!-- STEP 1 -->
+<div class="sec act" id="s1"><div class="sh"><div class="sn">Étape 1 / 4</div><h2 class="st">Quand & Où</h2><p class="sd">Date, heure et lieu de l'incident</p></div>
+<div class="card"><div class="fg"><div class="fr"><div><label class="fl"><span class="ic">📅</span> Date <span class="req">*</span></label><input type="date" id="fDate"></div><div><label class="fl"><span class="ic">🕐</span> Heure</label><input type="time" id="fHeure"></div></div></div>
+<div class="fg"><label class="fl"><span class="ic">📍</span> Lieu <span class="req">*</span></label><select id="fLieu"><option value="">Sélectionner...</option></select></div>
+<div class="fg"><label class="fl"><span class="ic">👤</span> Enseignant <span class="req">*</span></label><select id="fEnsei"><option value="">Sélectionner...</option></select></div></div>
+<div class="nb"><div style="flex:1"></div><button class="btn btn-p" onclick="go(2)">Suivant →</button></div></div>
+
+<!-- STEP 2 -->
+<div class="sec" id="s2"><div class="sh"><div class="sn">Étape 2 / 4</div><h2 class="st">Qui est impliqué</h2><p class="sd">Tapez les premières lettres pour rechercher</p></div>
+<div class="card">
+<div class="fg"><label class="fl"><span class="ic">🔴</span> Auteur(s) <span class="req">*</span></label><div class="acw" id="awA"><input type="text" id="iA" placeholder="Tapez un nom d'élève..." autocomplete="off"><div class="acl" id="lA"></div></div><div class="tags" id="tA"></div></div>
+<div class="fg"><label class="fl"><span class="ic">🔵</span> Victime(s)</label><div class="acw" id="awV"><input type="text" id="iV" placeholder="Tapez un nom d'élève..." autocomplete="off"><div class="acl" id="lV"></div></div><div class="tags" id="tV"></div></div>
+<div class="fg"><label class="fl"><span class="ic">🏫</span> Classe</label><div class="acb" id="acBadge"><span>🏫</span><span class="ct" id="acText">—</span><span class="ce" onclick="togMC()">modifier</span></div><select id="fClasse" style="display:none"><option value="">Sélectionner...</option></select></div>
+<div class="fg"><label class="fl"><span class="ic">👁️</span> Personnel témoin</label><select id="fTemoin"><option value="">Sélectionner...</option></select></div></div>
+<div class="nb"><button class="btn btn-s" onclick="go(1)">← Retour</button><button class="btn btn-p" onclick="go(3)">Suivant →</button></div></div>
+
+<!-- STEP 3 -->
+<div class="sec" id="s3"><div class="sh"><div class="sn">Étape 3 / 4</div><h2 class="st">Nature & Description</h2></div>
+<div class="card"><div class="fg"><label class="fl"><span class="ic">⚡</span> Nature <span class="req">*</span></label><select id="fNature"><option value="">Sélectionner...</option></select></div>
+<div class="fg"><label class="fl"><span class="ic">🎯</span> Gravité</label><div class="gs"><div class="go" data-v="Faible" onclick="selG(this)"><span class="ge">🟢</span><span class="gl">Faible</span></div><div class="go sel" data-v="Moyenne" onclick="selG(this)"><span class="ge">🟡</span><span class="gl">Moyenne</span></div><div class="go" data-v="Grave" onclick="selG(this)"><span class="ge">🔴</span><span class="gl">Grave</span></div></div></div>
+<div class="fg"><label class="fl"><span class="ic">📝</span> Description</label><textarea id="fDesc" placeholder="Décrivez ce qui s'est passé..."></textarea></div>
+<div class="fg"><label class="fl"><span class="ic">📸</span> Photo</label><div class="pz" id="pZone" onclick="document.getElementById('photoInput').click()"><div class="ph"><div class="ci">📷</div><div class="pt">Prendre une photo</div></div><img class="pp" id="pPrev" alt=""><button class="pr" onclick="rmPh(event)">✕</button></div><input type="file" id="photoInput" accept="image/*" capture="environment" onchange="hdPh(this)"></div></div>
+<div class="nb"><button class="btn btn-s" onclick="go(2)">← Retour</button><button class="btn btn-p" onclick="go(4)">Suivant →</button></div></div>
+
+<!-- STEP 4 -->
+<div class="sec" id="s4"><div class="sh"><div class="sn">Étape 4 / 4</div><h2 class="st">Mesures & Envoi</h2></div>
+<div class="card"><div class="fg"><label class="fl"><span class="ic">🛡️</span> Mesures prises</label><div class="cg" id="cM"></div><div class="car"><input type="text" id="xM" placeholder="Autre mesure..."><button class="bac" onclick="addCM()">+ Ajouter</button></div></div>
+<div class="fg"><label class="fl"><span class="ic">📋</span> Suites données</label><div class="cg" id="cS"></div><div class="car"><input type="text" id="xS" placeholder="Autre suite..."><button class="bac" onclick="addCS()">+ Ajouter</button></div></div></div>
+<div class="card"><div class="fl" style="margin-bottom:12px"><span class="ic">📊</span> Récapitulatif</div><ul class="sl" id="sumList"></ul></div>
+<div class="nb"><button class="btn btn-s" onclick="go(3)">← Retour</button><button class="btn btn-ok" onclick="send()">✉️ Envoyer par mail</button></div></div>
+
+<!-- SUCCESS -->
+<div class="ss" id="ssScreen"><div class="ss-i">✅</div><h2 class="ss-t">Incident envoyé !</h2><p class="ss-d">Le fichier incident a été partagé via votre application mail.<br>Vérifiez que le mail est bien envoyé.</p><div class="nb" style="justify-content:center"><button class="btn btn-p" onclick="reset()" style="max-width:250px">➕ Nouvel incident</button></div></div>
+</main>
+
+<!-- MODALS -->
+<div class="mo" id="mHist" onclick="if(event.target===this)toggleHistory()"><div class="ms"><div class="mh-bar"></div><div class="mh"><h3 class="mt">Historique</h3><button class="mc" onclick="toggleHistory()">✕</button></div><div class="mb" id="hBody"><div class="eh"><div class="ic">📭</div><div>Aucun incident</div></div></div></div></div>
+<div class="mo" id="mConf" onclick="if(event.target===this)toggleConfig()"><div class="ms"><div class="mh-bar"></div><div class="mh"><h3 class="mt">⚙️ Configuration</h3><button class="mc" onclick="toggleConfig()">✕</button></div><div class="mb">
+<div class="fg"><label class="fl"><span class="ic">📋</span> Liste des élèves</label>
+<p style="font-size:.8rem;color:var(--t2);margin-bottom:8px">Importez un CSV (colonnes: Nom, Prénom, Classe, Niveau) pour mettre à jour la liste des élèves pour la nouvelle année scolaire.</p>
+<input type="file" id="csvFile" accept=".csv,.txt" style="display:none" onchange="importCSV(this)">
+<button class="btn btn-p" onclick="document.getElementById('csvFile').click()" style="width:100%;margin-bottom:8px">📁 Importer un CSV</button>
+<div id="csvStatus" style="font-size:.78rem;color:var(--ok);display:none;margin-bottom:8px"></div>
+</div>
+<div class="fg"><label class="fl"><span class="ic">👥</span> Enseignants / Classes</label>
+<p style="font-size:.8rem;color:var(--t2);margin-bottom:8px">Les enseignants et classes sont extraits automatiquement du CSV importé.</p>
+<div id="ensStatus" style="font-size:.78rem;color:var(--t2)"></div>
+</div>
+<div style="display:flex;gap:8px;margin-top:16px">
+<button class="btn btn-p" onclick="resetData()" style="flex:1;background:var(--input);border:1px solid var(--brd)">🔄 Réinitialiser</button>
+</div>
+</div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const E_DEFAULT=[{"n":"ALZERAH","p":"Eléonore","c":"CE2-CM1  GILLET Virginie","v":"CM1"},{"n":"ALZERAH","p":"Evan","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"ANGLAS","p":"Léo","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"ARDON DEBAIL","p":"Lana","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"ARNAUD","p":"Isaac","c":"CP - CE1 TAILHEFER Camille","v":"CP"},{"n":"AUBEL","p":"Tania","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"AUGIER","p":"Constantin","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"BAIBOU","p":"Riyad","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"BAIBOU","p":"Ziyed","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"BARET","p":"Sasha","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"BARET","p":"Zoé","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"BARONI","p":"Mila","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"BARRÉ","p":"Naomy","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"BAUME","p":"Sandro","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"BEDJOU","p":"Ilyes","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"BEIL","p":"Daynitsa","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"BELLANCE","p":"Noah","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"BELLANCE","p":"Wendy","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"BEN KADDOUR EL AMRI","p":"Alaa","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"BERGET","p":"Loane","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"BISMUTH","p":"Soloway","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"BLANC","p":"Enzo","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"BLANCARD","p":"Jhäly-Ézèkiel","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"BLAU BELMONTE","p":"Kaëlia","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"BONNERONT","p":"Hayden","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"BOSCH","p":"Julia","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"BOUBEKEUR","p":"Kaïs","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"BOUR","p":"KEYLIAN","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"BOUR","p":"Shanna","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"BOUSQUIER","p":"Swan","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"BOUVE","p":"Nathan","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"BOUZIGUES","p":"Louis","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"BROUILLARD","p":"LOUNA","c":"CE2-CM1  GILLET Virginie","v":"CM1"},{"n":"BRU","p":"Manuella","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"BUET","p":"Lucie","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"BUET","p":"Nathan","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"CAPITAN","p":"Chanel","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE2"},{"n":"CAPITAN","p":"Louane","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"CARPENTIER","p":"Inaya","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"CERVEAUX","p":"Ivy","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"CHABBI","p":"Aymen","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"CHAMBOLLE","p":"Milan","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"CHATAIN LECONET","p":"Enaé","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"COFALA","p":"Charly","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE2"},{"n":"COMAS","p":"Salomé","c":"CP - CE1 TAILHEFER Camille","v":"CP"},{"n":"COMPANY SENDRA","p":"Matis","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"COURAND","p":"Dylan","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"COURONNE","p":"Charlyze","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"COURTEAU","p":"Andy","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"CRUZILLAC","p":"Eléonore","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"CRÉTTÉ","p":"Lilou","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"DA SILVA OLIVEIRA","p":"Esteban","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"DAGNET","p":"Lilou","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"DAMIANI EMORINE","p":"Enzo","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"DAMIANI EMORINE","p":"Kylhian","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"DAOUDI","p":"Hanna","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"DAOUDI","p":"Mohamed","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE2"},{"n":"DECAUDIN","p":"Eloi","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"DELAFONT PIERRE","p":"Théa","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"DELATTRE","p":"Julia","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"DELHALLE","p":"Mathys","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"DREUILHE MOUSSAOUI","p":"Kataleya","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"DUMAS","p":"Salomé","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"DUMAS","p":"Zoé","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"DUMON","p":"Lilou","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"DUPIRE CANDIEU","p":"Eden","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"EL HARROUF","p":"Cheryne","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"FASILLE","p":"Shanya","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"FERRANDES","p":"Alicia","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"FLORES TARRIDE","p":"Léonie","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"FORTIER","p":"Siana","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"FRAISSINET","p":"Ilyana","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"GAUREL","p":"Léa","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE2"},{"n":"GERACI","p":"Giulia","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"GERNO","p":"Mattéo","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"GEST","p":"Maylan","c":"CP - CE1 TAILHEFER Camille","v":"CP"},{"n":"GHABGHAB KRIBIB","p":"Jana","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"GIBAUDAN","p":"Gabriel","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"GONDOLF PRAX","p":"Marin","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"GRACIA TRILHE","p":"Charly","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"GRAN","p":"Alice","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"GRAN","p":"Arthur","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"GRÉGOIRE","p":"Callie","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"GUELLIL","p":"Sophia","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"GUERROUMI","p":"Aliya","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE2"},{"n":"GUINOT","p":"Lucas","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"GUIOT","p":"Nathan","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"GÉRARDIN","p":"Maël","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"HAMDOUNI","p":"Nael","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE2"},{"n":"HARALAMBIE","p":"Lora","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"HERMAK","p":"Naim","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"HUET","p":"Moïra","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"IBANEZ","p":"Lucia","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"JANNELLI","p":"Thibaut","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"JOLY","p":"Dan","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"JUMEL PIERREL","p":"Ethan","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"KEHINDE","p":"Naïa","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"KHARROUBI","p":"Lyna","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"KLOSSOWSKI","p":"Mya","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"KOOS","p":"Théo","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"LAFFONT SOUILLER","p":"Soline","c":"CE2-CM1  GILLET Virginie","v":"CM1"},{"n":"LAHALLE CHEVRIN","p":"Liana","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"LAHALLE CHEVRIN","p":"Loris","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"LALLEMAND","p":"Elena","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"LAMOT","p":"Maëla","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"LANDRY","p":"Sorélyane","c":"CE2-CM1  GILLET Virginie","v":"CM1"},{"n":"LAO VARAINE","p":"Zélie","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"LECOLIER","p":"Fabio","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"LEHUEDE MANZANO","p":"Lilou","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE2"},{"n":"LENGAY","p":"Pénélope","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"LENGLOS","p":"Andréa","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"LENGLOS","p":"Baptiste","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"LEVY","p":"Anakyn","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"LOIZEAU","p":"Maïssa","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"LONGBOIS","p":"Yanis","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"LORMETEAU","p":"Ethan","c":"CP - CE1 TAILHEFER Camille","v":"CP"},{"n":"LOY VIVAS","p":"Flore","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"LÊ","p":"Adam","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"LÊ","p":"Adrien","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"LÊ","p":"Lucas","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"LÊ","p":"Nathan","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"M'SELAM","p":"Aron","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"M'SELAM","p":"Ayden","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"MACHMACH","p":"Joumeyna","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"MALRIEU RIDEL","p":"Lony","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"MARQUISE","p":"Kylian","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"MARTINEZ","p":"Louka","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"MARTOS SOYER","p":"Esteban","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE2"},{"n":"MERABET","p":"Lizéa","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"MOERMAN","p":"CHARLIE","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"MOLINARI","p":"Mila","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"MONTENERO","p":"Louka","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"MOSCA CARVALHO","p":"Lara","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"MOTTES","p":"Fabio","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"MÉMAIN","p":"Rayan","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"NEZIRI","p":"Leïla","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"NEZIRI","p":"Sukeina","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"NOBLET","p":"Eléa","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"OLIVEIRA","p":"Téo","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"OLLIER","p":"MANON","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"PACE","p":"Kélio","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"PALANZUELA","p":"Mina","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"PARGNY","p":"Gabriel","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE2"},{"n":"PARTENIO","p":"Keïss","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"PASCAUD","p":"Paola","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"PATRAC","p":"Geena","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"PERNOT","p":"Alix","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"PICARD GASC","p":"Giulia","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"PIERRET","p":"Johad","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"PIERRET","p":"Méyssia","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE2"},{"n":"PIETRUCCI DE AMORIM LUNA","p":"Roméo","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"PIETRUCCI DE AMORIM LUNA","p":"Taô","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"PIGACHE GEST","p":"Evana","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"PLANES","p":"Théa","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"POCHET","p":"Melyssa","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"POCHET ALBUQUERQUE","p":"Kelsy","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"POIRVILLE LIGER","p":"Romy","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"PUIG","p":"Maël","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"RABEHI","p":"Jennah","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"RAJLI","p":"Rim","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"RAPOSO","p":"Ilyan","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"RIBES","p":"Kaylan","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"RIGAUDIS","p":"Margaux","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"RIGAUX TIENDREBEOGO","p":"Paul-Lawrens","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"RITT","p":"Kenny","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"ROCHA","p":"Manuela","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"ROCHE SERY","p":"Léo","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"RONDEAU","p":"Paolo","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"ROQUES","p":"Alya","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"ROUANET","p":"Emilie","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"SABEG","p":"Kellya","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"SABEG","p":"Yaël","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"SALVETAT","p":"Kélia","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"SALVETAT","p":"Léon","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"SANCHEZ","p":"Issandro","c":"CP BARTHELEMY Nathalie","v":"CP"},{"n":"SANTANA","p":"Naïla","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"SANTOS","p":"Julia","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"SARCIAUX","p":"Valentin","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"SOUALMI","p":"Kays","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"SOUALMI MAILLOL","p":"Léna","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"SOUCHON","p":"Noélie","c":"CP - CE1 TAILHEFER Camille","v":"CP"},{"n":"SOUDANT","p":"Thomas","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"SULYAN","p":"Lyana","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"VAQUERIN","p":"Suzon","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE2"},{"n":"VIDAL TACQUARD","p":"Lana","c":"CP - CE1 TAILHEFER Camille","v":"CP"},{"n":"VIDAL TACQUARD","p":"Valentina","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"VIETRI","p":"Noélie","c":"CM2 FERMIER Christelle","v":"CM2"},{"n":"VIEU","p":"Juliana","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"VIEU","p":"Lucia","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"VUILLAUME","p":"Adrien","c":"CM1 MENIVALE Xavier","v":"CM1"},{"n":"VUILLAUME","p":"Aron","c":"CE2-CM1  GILLET Virginie","v":"CE2"},{"n":"WATRÉ","p":"Kelyna","c":"CM2 VIEU Sébastien","v":"CM2"},{"n":"XERRA","p":"Nina","c":"CP - CE1 TAILHEFER Camille","v":"CE1"},{"n":"ZAIKH","p":"Mélissa","c":"CE1 - CE2 PICHEREAU Catherine","v":"CE1"},{"n":"ZAIKH","p":"Sofiane","c":"CM1 FORESTIER Estelle","v":"CM1"},{"n":"ZERROQI","p":"Rafaël","c":"CP BARTHELEMY Nathalie","v":"CP"}];
+function getEleves(){try{const s=localStorage.getItem('eleves_data');if(s){const d=JSON.parse(s);if(d.length>0)return d}}catch(e){}return E_DEFAULT}
+function getConfig(){try{const s=localStorage.getItem('config_data');if(s){const d=JSON.parse(s);return Object.assign({},C_DEFAULT,d)}}catch(e){}return C_DEFAULT}
+let E=getEleves();
+const C_DEFAULT={lieux:["Salle de classe","Couloir","Cour de récréation","Cantine","Toilettes","Bibliothèque","Salle de motricité","Salle polyvalente","Bureau de la direction","Salle des maîtres","Infirmerie","Préau","Terrain de sport","Parking","Entrée de l'école","Sortie de l'école","Escalier","Vestiaire","Hall d'entrée","Jardin pédagogique","Dans le rang"],natures:["Blessure","Dispute / bagarre","Chute","Agression verbale","Dégradation","Vol","Harcèlement","Non-respect des consignes","Matériel endommagé","Violence","Insultes","Exhibition","Incivilité","Menaces","Outrage","Autre"],classes:["CP BARTHELEMY Nathalie","CP - CE1 TAILHEFER Camille","CE1 - CE2 PICHEREAU Catherine","CE2-CM1  GILLET Virginie","CM1 FORESTIER Estelle","CM1 MENIVALE Xavier","CM2 FERMIER Christelle","CM2 VIEU Sébastien"],enseignants:["GILLET Virginie","FERMIER Christelle","FORESTIER Estelle","TAILHEFER Camille","MENIVALE Xavier","VIEU Sébastien","PICHEREAU Catherine","BARTHELEMY Nathalie","LEGLISE Fabrice","MOUTY Nathalie"],temoins:["Aucun témoin","GILLET Virginie","FERMIER Christelle","FORESTIER Estelle","TAILHEFER Camille","MENIVALE Xavier","VIEU Sébastien","PICHEREAU Catherine","BARTHELEMY Nathalie","LEGLISE Fabrice","MOUTY Nathalie","Agent de la cantine"],mesures:["Séparation élèves","Premiers soins","Famille contactée","Consultation médicale","Avertissement","Mise à l'écart temporaire","Intervention adulte","Auteur puni temporaire"],suites:["Convocation famille victime","Convocation famille auteur","Mesure disciplinaire","Suivi médical","Déclaration accident","Signalement autorités","Travail d'intérêt général","Exclusion temporaire"]};
+let C=getConfig();
+
+let step=1,grav="Moyenne",selM=[],selS=[],custM=[],custS=[],photo=null,selA=[],selV=[],hlIdx=-1,manC=false;
+
+document.addEventListener('DOMContentLoaded',()=>{
+    const n=new Date();document.getElementById('fDate').value=n.toISOString().split('T')[0];document.getElementById('fHeure').value=n.toTimeString().slice(0,5);
+    pSel('fLieu',C.lieux);pSel('fNature',C.natures);pSel('fClasse',C.classes);pSel('fEnsei',C.enseignants);pSel('fTemoin',C.temoins);
+    rChips();ldCfg();updBdg();acSetup('iA','lA','a');acSetup('iV','lV','v');
+});
+
+function pSel(id,items){const s=document.getElementById(id);items.forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;s.appendChild(o)})}
+
+// AUTOCOMPLETE
+function acSetup(iId,lId,type){
+    const inp=document.getElementById(iId),list=document.getElementById(lId);
+    inp.addEventListener('input',()=>{
+        const q=inp.value.trim().toLowerCase();hlIdx=-1;
+        if(q.length<1){list.classList.remove('open');return}
+        const used=type==='a'?selA.map(e=>e.n+e.p):selV.map(e=>e.n+e.p);
+        const m=E.filter(e=>{if(used.includes(e.n+e.p))return false;const f=`${e.n} ${e.p}`.toLowerCase();return f.includes(q)||`${e.p} ${e.n}`.toLowerCase().includes(q)}).slice(0,8);
+        if(!m.length){list.classList.remove('open');return}
+        list.innerHTML=m.map((e,i)=>`<div class="aci" onclick="selEl('${type}',${E.indexOf(e)})"><span class="acn">${hlM(`${e.n} ${e.p}`,q)}</span><span class="acc">${e.v}</span></div>`).join('');
+        list.classList.add('open');
+    });
+    inp.addEventListener('keydown',ev=>{
+        const items=list.querySelectorAll('.aci');if(!list.classList.contains('open')||!items.length)return;
+        if(ev.key==='ArrowDown'){ev.preventDefault();hlIdx=Math.min(hlIdx+1,items.length-1);updHL(items)}
+        else if(ev.key==='ArrowUp'){ev.preventDefault();hlIdx=Math.max(hlIdx-1,0);updHL(items)}
+        else if(ev.key==='Enter'&&hlIdx>=0){ev.preventDefault();items[hlIdx].click()}
+    });
+    inp.addEventListener('blur',()=>setTimeout(()=>list.classList.remove('open'),200));
+    inp.addEventListener('focus',()=>{if(inp.value.trim().length>=1)inp.dispatchEvent(new Event('input'))});
+}
+function updHL(items){items.forEach((it,i)=>it.classList.toggle('hl',i===hlIdx))}
+function hlM(t,q){const i=t.toLowerCase().indexOf(q);return i<0?t:t.slice(0,i)+'<em>'+t.slice(i,i+q.length)+'</em>'+t.slice(i+q.length)}
+function selEl(type,idx){
+    const e=E[idx];
+    if(type==='a'){if(!selA.find(a=>a.n===e.n&&a.p===e.p))selA.push(e);document.getElementById('iA').value='';document.getElementById('lA').classList.remove('open')}
+    else{if(!selV.find(v=>v.n===e.n&&v.p===e.p))selV.push(e);document.getElementById('iV').value='';document.getElementById('lV').classList.remove('open')}
+    rTags();updAC();
+}
+function rmEl(type,i){if(type==='a')selA.splice(i,1);else selV.splice(i,1);rTags();updAC()}
+function rTags(){
+    document.getElementById('tA').innerHTML=selA.map((e,i)=>`<span class="tag tag-a">${e.n} ${e.p} <span class="acc" style="margin-left:4px">${e.v}</span><span class="tx" onclick="rmEl('a',${i})">✕</span></span>`).join('');
+    document.getElementById('tV').innerHTML=selV.map((e,i)=>`<span class="tag tag-v">${e.n} ${e.p} <span class="acc" style="margin-left:4px">${e.v}</span><span class="tx" onclick="rmEl('v',${i})">✕</span></span>`).join('');
+}
+function updAC(){
+    const b=document.getElementById('acBadge'),s=document.getElementById('fClasse');
+    const all=[...selA,...selV],cls=[...new Set(all.map(e=>e.c))];
+    if(!cls.length){b.classList.remove('vis');if(!manC){s.style.display='none';s.value=''}return}
+    if(!manC){s.style.display='none';b.classList.add('vis');document.getElementById('acText').textContent=cls.join(' / ');s.value=cls[0]}
+}
+function togMC(){manC=!manC;const b=document.getElementById('acBadge'),s=document.getElementById('fClasse');if(manC){b.classList.remove('vis');s.style.display='block'}else{s.style.display='none';updAC()}}
+
+// CHIPS
+function rChips(){rCG('cM',C.mesures,custM,selM);rCG('cS',C.suites,custS,selS)}
+function rCG(cid,defs,custs,sel){
+    const c=document.getElementById(cid);c.innerHTML='';
+    defs.forEach(t=>{const d=document.createElement('div');d.className='chip'+(sel.includes(t)?' sel':'');d.textContent=t;d.onclick=()=>{togArr(sel,t);rChips()};c.appendChild(d)});
+    custs.forEach((t,i)=>{const d=document.createElement('div');d.className='chip cust'+(sel.includes(t)?' sel':'');d.innerHTML=`${t} <span class="cr" onclick="event.stopPropagation();rmCust('${cid==='cM'?'m':'s'}',${i})">✕</span>`;d.onclick=()=>{togArr(sel,t);rChips()};c.appendChild(d)});
+}
+function togArr(a,v){const i=a.indexOf(v);if(i>-1)a.splice(i,1);else a.push(v)}
+function addCM(){const i=document.getElementById('xM'),v=i.value.trim();if(!v)return;if(!custM.includes(v)&&!C.mesures.includes(v)){custM.push(v);selM.push(v);rChips();i.value='';toast(`"${v}" ajouté`)}}
+function addCS(){const i=document.getElementById('xS'),v=i.value.trim();if(!v)return;if(!custS.includes(v)&&!C.suites.includes(v)){custS.push(v);selS.push(v);rChips();i.value='';toast(`"${v}" ajouté`)}}
+function rmCust(t,i){if(t==='m'){const v=custM[i];const si=selM.indexOf(v);if(si>-1)selM.splice(si,1);custM.splice(i,1)}else{const v=custS[i];const si=selS.indexOf(v);if(si>-1)selS.splice(si,1);custS.splice(i,1)}rChips()}
+document.addEventListener('keydown',ev=>{if(ev.key==='Enter'){if(ev.target.id==='xM'){ev.preventDefault();addCM()}if(ev.target.id==='xS'){ev.preventDefault();addCS()}}});
+
+// NAV
+function go(s){if(s>step&&!val(step))return;document.querySelectorAll('.dot').forEach((d,i)=>{d.classList.remove('act','done');if(i+1===s)d.classList.add('act');else if(i+1<s)d.classList.add('done')});document.querySelectorAll('.sec').forEach(x=>x.classList.remove('act'));document.getElementById('s'+s).classList.add('act');if(s===4)genSum();step=s;window.scrollTo({top:0,behavior:'smooth'})}
+function val(s){
+    if(s===1){if(!document.getElementById('fDate').value){toast('Date requise',1);return false}if(!document.getElementById('fLieu').value){toast('Lieu requis',1);return false}if(!document.getElementById('fEnsei').value){toast('Enseignant requis',1);return false}}
+    if(s===2&&selA.length===0&&!document.getElementById('iA').value.trim()){toast('Au moins un auteur',1);return false}
+    if(s===3&&!document.getElementById('fNature').value){toast('Nature requise',1);return false}
+    return true;
+}
+
+function selG(el){document.querySelectorAll('.go').forEach(o=>o.classList.remove('sel'));el.classList.add('sel');grav=el.dataset.v}
+function hdPh(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const img=new Image();img.onload=()=>{const cv=document.createElement('canvas');const M=1024;let w=img.width,h=img.height;if(w>M||h>M){if(w>h){h=(h/w)*M;w=M}else{w=(w/h)*M;h=M}}cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);photo=cv.toDataURL('image/jpeg',.7);document.getElementById('pPrev').src=photo;document.getElementById('pZone').classList.add('hp')};img.src=ev.target.result};r.readAsDataURL(f)}
+function rmPh(ev){ev.stopPropagation();photo=null;document.getElementById('photoInput').value='';document.getElementById('pZone').classList.remove('hp')}
+
+function coll(){
+    const dv=document.getElementById('fDate').value,p=dv.split('-'),dfr=p.length===3?`${p[2]}/${p[1]}/${p[0]}`:dv;
+    let an=selA.map(e=>`${e.n} ${e.p}`);const lo=document.getElementById('iA').value.trim();if(lo&&!an.includes(lo))an.push(lo);
+    let vn=selV.map(e=>`${e.n} ${e.p}`);const lov=document.getElementById('iV').value.trim();if(lov&&!vn.includes(lov))vn.push(lov);
+    const all=[...selA,...selV];let cl=document.getElementById('fClasse').value||'';if(!cl&&all.length)cl=all[0].c;
+    return{date:dfr,heure:document.getElementById('fHeure').value||'',lieu:document.getElementById('fLieu').value||'',enseignant:document.getElementById('fEnsei').value||'',classe:cl,auteurs:an.join(', '),victimes:vn.join(', '),temoin:document.getElementById('fTemoin').value||'',nature:document.getElementById('fNature').value||'',gravite:grav,description:document.getElementById('fDesc').value.trim(),mesures:selM.join(', '),suites:selS.join(', '),has_photo:!!photo,photo_base64:photo||null,enregistre_le:new Date().toLocaleString('fr-FR'),source:'Application Mobile'}
+}
+
+function genSum(){const d=coll();const items=[['Date',d.date],['Heure',d.heure||'—'],['Lieu',d.lieu],['Enseignant',d.enseignant],['Classe',d.classe||'—'],['Auteur(s)',d.auteurs],['Victime(s)',d.victimes||'—'],['Témoin',d.temoin||'—'],['Nature',d.nature],['Gravité',d.gravite],['Description',d.description||'—'],['Mesures',d.mesures||'—'],['Suites',d.suites||'—'],['Photo',d.has_photo?'📷 Oui':'Non']];document.getElementById('sumList').innerHTML=items.map(([l,v])=>`<li class="si"><span class="sk">${l}</span><span class="sv${v==='—'?' em':''}">${v}</span></li>`).join('')}
+
+function mkFile(d){
+    const jd={date:d.date,heure:d.heure,eleve:d.auteurs,victimes:d.victimes,temoin:d.temoin,classe:d.classe,type:d.nature,lieu:d.lieu,description:d.description,mesures:d.mesures,suites:d.suites,enseignant:d.enseignant,gravite:d.gravite,enregistre_le:d.enregistre_le,source:'Application Mobile',date_incident:d.date,auteurs:d.auteurs,nom_complet_eleve:d.auteurs,lieu_exact:d.lieu,nature_incident:d.nature,description_detaille:d.description,personnel_temoin:d.temoin,mesures_prises:d.mesures,suites_donnees:d.suites};
+    if(d.photo_base64){jd.photo_base64=d.photo_base64}
+    const ts=new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);
+    const fn=`incident_${ts}.txt`;
+    const sum=`=== INCIDENT SCOLAIRE ===\nDate: ${d.date} à ${d.heure}\nLieu: ${d.lieu}\nEnseignant: ${d.enseignant}\nClasse: ${d.classe||'—'}\nAuteur(s): ${d.auteurs}\nVictime(s): ${d.victimes||'—'}\nTémoin: ${d.temoin||'—'}\nNature: ${d.nature}\nGravité: ${d.gravite}\nDescription: ${d.description||'—'}\nMesures: ${d.mesures||'—'}\nSuites: ${d.suites||'—'}\nPhoto: ${d.has_photo?'Oui':'Non'}\n========================\n\n`;
+    const content=sum+'#INCIDENT_MOBILE_DATA_V2\n'+JSON.stringify(jd,null,2)+'\n#END_INCIDENT_DATA';
+    return{jd,fn,content,file:new File([content],fn,{type:'text/plain'})};
+}
+async function send(){
+    if(!val(step))return;const d=coll();const{jd,fn,content,file}=mkFile(d);
+    svHist(d,jd,'draft');
+    const subj=`[INCIDENT MOBILE] ${d.nature} - ${d.auteurs} - ${d.date}`;
+    // 1) Essai Web Share API (pièce jointe native sur mobile)
+    if(navigator.canShare&&navigator.canShare({files:[file]})){
+        try{
+            await navigator.share({title:subj,text:`Incident scolaire: ${d.nature} - ${d.auteurs}`,files:[file]});
+            updLast('sent');showSuccess();toast('Incident partagé avec pièce jointe !');return;
+        }catch(e){if(e.name==='AbortError'){toast('Partage annulé',1);return}}
+    }
+    // 2) Fallback: téléchargement seul (fichier unique = pas de 2e fichier parasite)
+    const lnk=document.createElement('a');lnk.href=URL.createObjectURL(new Blob([content],{type:'text/plain'}));lnk.download=fn;lnk.click();
+    updLast('sent');setTimeout(()=>showSuccess(),600);toast('Fichier téléchargé — envoyez-le par mail');
+}
+function showSuccess(){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('act'));document.getElementById('stepInd').style.display='none';document.getElementById('ssScreen').classList.add('act')}
+
+// HISTORY
+function svHist(d,j,st){const h=JSON.parse(localStorage.getItem('ih')||'[]');
+    // Ne pas stocker le base64 photo dans l'historique (trop volumineux)
+    const jCopy=Object.assign({},j);delete jCopy.photo_base64;
+    h.unshift({id:Date.now(),date:d.date,heure:d.heure,nature:d.nature,auteurs:d.auteurs,gravite:d.gravite,status:st,ts:new Date().toISOString(),jd:jCopy,had_photo:d.has_photo});if(h.length>50)h.length=50;localStorage.setItem('ih',JSON.stringify(h));updBdg()}
+function updLast(s){const h=JSON.parse(localStorage.getItem('ih')||'[]');if(h.length){h[0].status=s;localStorage.setItem('ih',JSON.stringify(h))}}
+function updBdg(){const h=JSON.parse(localStorage.getItem('ih')||'[]');const b=document.getElementById('hCount');b.textContent=h.length;b.classList.toggle('vis',h.length>0)}
+function toggleHistory(){const m=document.getElementById('mHist');m.classList.toggle('show');if(m.classList.contains('show'))rHist()}
+function rHist(){const h=JSON.parse(localStorage.getItem('ih')||'[]');const b=document.getElementById('hBody');if(!h.length){b.innerHTML='<div class="eh"><div class="ic">📭</div><div>Aucun incident</div></div>';return}b.innerHTML=h.map((it,i)=>`<div class="hi"><div class="hih"><span class="hin">${it.nature||'Incident'}</span><span class="his ${it.status==='sent'?'hs-s':'hs-d'}">${it.status==='sent'?'✓ Envoyé':'⏳ Brouillon'}</span></div><div class="hie">${it.auteurs||'—'} ${it.gravite?'• '+it.gravite:''}</div><div class="hid">${it.date||''} ${it.heure||''}</div><div class="ha"><button class="btn btn-s" onclick="reSend(${i})">📤 Renvoyer</button><button class="btn btn-s" onclick="delH(${i})" style="color:var(--acc)">🗑</button></div></div>`).join('')}
+async function reSend(i){const h=JSON.parse(localStorage.getItem('ih')||'[]');const it=h[i];if(!it?.jd)return;
+    const ts=new Date().toISOString().replace(/[:.]/g,'-').slice(0,19);const fn=`incident_${ts}.txt`;
+    const content='#INCIDENT_MOBILE_DATA_V2\n'+JSON.stringify(it.jd,null,2)+'\n#END_INCIDENT_DATA';
+    const file=new File([content],fn,{type:'text/plain'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})){
+        try{await navigator.share({title:`[INCIDENT MOBILE] ${it.nature}`,text:`Renvoi incident: ${it.auteurs}`,files:[file]});h[i].status='sent';localStorage.setItem('ih',JSON.stringify(h));rHist();toast('Partagé !');return}catch(e){}
+    }
+    const lnk=document.createElement('a');lnk.href=URL.createObjectURL(new Blob([content],{type:'text/plain'}));lnk.download=fn;lnk.click();
+    h[i].status='sent';localStorage.setItem('ih',JSON.stringify(h));rHist();toast('Fichier téléchargé !')}
+function delH(i){if(!confirm("Supprimer ?"))return;const h=JSON.parse(localStorage.getItem('ih')||'[]');h.splice(i,1);localStorage.setItem('ih',JSON.stringify(h));updBdg();rHist()}
+
+function ldCfg(){const c=JSON.parse(localStorage.getItem('icfg')||'{}');return c}
+function importCSV(inp){
+    const file=inp.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=function(ev){
+        try{
+            const txt=ev.target.result;
+            const lines=txt.split(/\r?\n/).filter(l=>l.trim());
+            if(lines.length<2){toast('CSV vide',1);return}
+            // Détecter séparateur
+            const sep=lines[0].includes(';')?';':',';
+            const hdr=lines[0].split(sep).map(h=>h.trim().toLowerCase().replace(/['"]/g,''));
+            // Chercher les colonnes (flexible)
+            const iNom=hdr.findIndex(h=>h.match(/^nom/i));
+            const iPre=hdr.findIndex(h=>h.match(/^pr[eé]nom/i));
+            const iCla=hdr.findIndex(h=>h.match(/^classe/i));
+            const iNiv=hdr.findIndex(h=>h.match(/^niveau/i));
+            if(iNom<0||iPre<0){toast('Colonnes Nom/Prénom introuvables',1);return}
+            const eleves=[];const classesSet=new Set();const ensSet=new Set();
+            for(let i=1;i<lines.length;i++){
+                const cols=lines[i].split(sep).map(c=>c.trim().replace(/^["']|["']$/g,''));
+                if(!cols[iNom])continue;
+                const nom=cols[iNom],pre=cols[iPre]||'';
+                const classe=iCla>=0?cols[iCla]||'':'';
+                const niveau=iNiv>=0?cols[iNiv]||'':'';
+                eleves.push({n:nom,p:pre,c:classe,v:niveau});
+                if(classe){classesSet.add(classe);
+                    // Extraire enseignant du nom de classe (ex: "CM1 FORESTIER Estelle")
+                    const m=classe.match(/(?:CP|CE1|CE2|CM1|CM2|GS|MS|PS)[\s-]*(?:CE1|CE2|CM1|CM2|GS|MS|PS)?[\s]+(.*)/i);
+                    if(m&&m[1])ensSet.add(m[1].trim());
+                }
+            }
+            if(eleves.length===0){toast('Aucun élève trouvé',1);return}
+            // Sauvegarder
+            localStorage.setItem('eleves_data',JSON.stringify(eleves));
+            E=eleves;
+            // Mettre à jour classes et enseignants
+            if(classesSet.size>0){
+                const newCfg={classes:Array.from(classesSet).sort(),enseignants:Array.from(ensSet).sort()};
+                newCfg.temoins=['Aucun témoin',...newCfg.enseignants,'Agent de la cantine'];
+                localStorage.setItem('config_data',JSON.stringify(newCfg));
+                C=getConfig();
+            }
+            // Réinitialiser les selects
+            document.getElementById('fLieu').innerHTML='<option value="">Sélectionner</option>';
+            pSel('fLieu',C.lieux);
+            document.getElementById('fEns').innerHTML='<option value="">Sélectionner</option>';
+            pSel('fEns',C.enseignants);
+            document.getElementById('fTem').innerHTML='<option value="">Sélectionner</option>';
+            pSel('fTem',C.temoins);
+            // Afficher statut
+            const st=document.getElementById('csvStatus');
+            st.style.display='block';
+            st.textContent=`✅ ${eleves.length} élèves, ${classesSet.size} classes, ${ensSet.size} enseignants chargés`;
+            const es=document.getElementById('ensStatus');
+            es.innerHTML=Array.from(ensSet).sort().map(e=>`<span style="display:inline-block;background:var(--okG);color:var(--ok);border-radius:6px;padding:2px 8px;margin:2px;font-size:.72rem">${e}</span>`).join('');
+            toast(`${eleves.length} élèves importés !`);
+        }catch(e){toast('Erreur lecture CSV: '+e.message,1)}
+    };
+    reader.readAsText(file,'UTF-8');
+    inp.value='';
+}
+function resetData(){
+    if(!confirm('Réinitialiser la liste des élèves aux données par défaut ?'))return;
+    localStorage.removeItem('eleves_data');localStorage.removeItem('config_data');
+    E=getEleves();C=getConfig();
+    document.getElementById('csvStatus').style.display='none';
+    document.getElementById('ensStatus').innerHTML='';
+    // Réinitialiser les selects
+    document.getElementById('fLieu').innerHTML='<option value="">Sélectionner</option>';pSel('fLieu',C.lieux);
+    document.getElementById('fEns').innerHTML='<option value="">Sélectionner</option>';pSel('fEns',C.enseignants);
+    document.getElementById('fTem').innerHTML='<option value="">Sélectionner</option>';pSel('fTem',C.temoins);
+    toast('Liste réinitialisée');
+}
+function toggleConfig(){
+    document.getElementById('mConf').classList.toggle('show');
+    // Afficher l'état actuel
+    if(document.getElementById('mConf').classList.contains('show')){
+        const custom=localStorage.getItem('eleves_data');
+        const st=document.getElementById('csvStatus');
+        if(custom){try{const d=JSON.parse(custom);st.style.display='block';st.textContent=`📋 Liste personnalisée: ${d.length} élèves`}catch(e){}}
+        else{st.style.display='block';st.textContent='📋 Liste par défaut (intégrée)'}
+        const cd=localStorage.getItem('config_data');
+        const es=document.getElementById('ensStatus');
+        const ens=cd?JSON.parse(cd).enseignants||C_DEFAULT.enseignants:C_DEFAULT.enseignants;
+        es.innerHTML=ens.map(e=>`<span style="display:inline-block;background:var(--input);border:1px solid var(--brd);border-radius:6px;padding:2px 8px;margin:2px;font-size:.72rem">${e}</span>`).join('');
+    }
+}
+
+function reset(){
+    document.getElementById('iA').value='';document.getElementById('iV').value='';document.getElementById('fDesc').value='';
+    document.getElementById('fTemoin').value='';document.getElementById('fNature').value='';
+    document.getElementById('xM').value='';document.getElementById('xS').value='';
+    selA=[];selV=[];selM=[];selS=[];custM=[];custS=[];manC=false;
+    rTags();rChips();updAC();rmPh({stopPropagation:()=>{}});
+    grav='Moyenne';document.querySelectorAll('.go').forEach(o=>o.classList.toggle('sel',o.dataset.v==='Moyenne'));
+    const n=new Date();document.getElementById('fDate').value=n.toISOString().split('T')[0];document.getElementById('fHeure').value=n.toTimeString().slice(0,5);
+    document.getElementById('stepInd').style.display='flex';document.getElementById('ssScreen').classList.remove('act');step=1;go(1);
+}
+
+function toast(m,err){const t=document.getElementById('toast');t.textContent=(err?'⚠️ ':'✅ ')+m;t.className='toast'+(err?' err':'');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000)}
+if('serviceWorker' in navigator)window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})});
+</script>
+</body>
+</html>
